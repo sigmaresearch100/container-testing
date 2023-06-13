@@ -14,7 +14,7 @@ Docker and Apptainer/Singularity containers. THIS IS FOR TESTING PURPOSES ONLY.
 
 ## GitHub Actions
 
-The `Docker and Apptainer Build and Push` GitHub action performs the following:
+The `Docker and Apptainer Build and Push` GitHub actions workflow performs the following:
 
 - Builds the Docker image specified by the `Dockerfile`.
 - Pushes the image to [DockerHub](https://hub.docker.com/repository/docker/sigmaresearch100/testing/general) using the tags `latest` and `date and time of build (YEAR-MM-DD-HHMMSS)`.
