@@ -17,7 +17,7 @@ Docker and Apptainer/Singularity containers. THIS IS FOR TESTING PURPOSES ONLY.
 The `Docker and Apptainer Build and Push` GitHub action performs the following:
 
 - Builds the Docker image specified by the `Dockerfile`.
-- Pushes the image to [DockerHub](https://hub.docker.com/repository/docker/sigmaresearch100/docker-sandbox/general) using the tags `latest` and `date and time of build (YEAR-MM-DD-HHMMSS)`.
+- Pushes the image to [DockerHub](https://hub.docker.com/repository/docker/sigmaresearch100/testing/general) using the tags `latest` and `date and time of build (YEAR-MM-DD-HHMMSS)`.
 - Builds the Singularity Image File (SIF) using Apptainer based on the Docker Hub image from the previous step.
 - Creates a GitHub release named `sif-YEAR-MM-DD-HHMMSS`. Note that `sif-YEAR-MM-DD-HHMMSS.zip` contains the SIF. 
 
