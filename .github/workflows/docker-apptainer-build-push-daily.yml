@@ -2,7 +2,7 @@ name: Docker and Apptainer Build and Push (Daily)
 
 on:
   schedule:
-    - cron: '12 16 * 10 7'
+    - cron: "0 0 * * *"
   push:
     branches: [ "main" ]
   pull_request:
