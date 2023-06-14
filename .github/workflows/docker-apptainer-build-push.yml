@@ -45,7 +45,7 @@ jobs:
         run: apptainer build ${{ secrets.DOCKER_HUB_CONTAINER }}.sif docker://${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_CONTAINER }}:${{ env.NOW }}
       -
         name: Run Apptainer container
-        run: apptainer run ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release; cat /home/rstudio/working-dir/.ghsha > .ghsha
+        run: apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release; cat /home/rstudio/working-dir/.ghsha > .ghsha
       -
         name: Upload Singularity Image File
         uses: actions/upload-artifact@v3

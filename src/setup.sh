@@ -143,5 +143,5 @@ R -q -e "sessionInfo()"
 echo -e "Check the dynr package...\n"
 R -q -e "library(dynr)"
 R -e "demo('LinearSDE', package = 'dynr')"
-cat -e /home/rstudio/working-dir/.ghsha
+cat -e "/home/rstudio/working-dir/.ghsha"
 echo -e "\nInstall dynr package, done!"
