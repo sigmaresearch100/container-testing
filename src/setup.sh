@@ -116,10 +116,8 @@ echo "session-default-working-dir=/home/${DEFAULT_USER}/working-dir" >> /etc/rst
 chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}/working-dir"
 
 ## github commit sha
-mkdir -p /home/rstudio/working-dir
-cd /home/rstudio/working-dir
-touch .ghsha
-echo "This release based on the $GHSHA commit in the master branch." > .ghsha
+touch /opt/.ghsha
+echo "This release is based on the $GHSHA commit in the master branch." > /opt/.ghsha
 
 ## project folder
 mkdir -p /home/${DEFAULT_USER}/project-dir
@@ -143,5 +141,5 @@ R -q -e "sessionInfo()"
 echo -e "Check the dynr package...\n"
 R -q -e "library(dynr)"
 R -e "demo('LinearSDE', package = 'dynr')"
-cat -e "/home/rstudio/working-dir/.ghsha"
+cat -e "/opt/.ghsha"
 echo -e "\nInstall dynr package, done!"
