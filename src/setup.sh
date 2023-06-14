@@ -97,7 +97,7 @@ R -e "                                                    \
 # main
 git clone https://github.com/mhunter1/dynr.git
 cd dynr
-GHSHA=git rev-parse origin/master
+GHSHA=`git rev-parse origin/master`
 touch /etc/profile.d/GHSHA.sh
 echo "export GHSHA=$GHSHA" > /etc/profile.d/GHSHA.sh
 ./configure
@@ -139,3 +139,4 @@ R -q -e "library(dynr)"
 R -e "demo('LinearSDE', package = 'dynr')"
 echo -e "\nInstall dynr package, done!"
 cat -e "/etc/profile.d/GHSHA.sh"
+echo -e "\n$GHSHA"
