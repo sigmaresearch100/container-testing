@@ -45,7 +45,7 @@ jobs:
         run: apptainer build ${{ secrets.DOCKER_HUB_CONTAINER }}.sif docker://${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_CONTAINER }}:${{ env.NOW }}
       -
         name: Run Apptainer container
-        run: apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release; cat /home/rstudio/working-dir/.ghsha > .ghsha
+        run: apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release; cat /home/rstudio/working-dir/GHSHA > GHSHA
       -
         name: Upload Singularity Image File
         uses: actions/upload-artifact@v3
@@ -65,7 +65,7 @@ jobs:
         uses: thedoctor0/zip-release@0.7.1
         with:
           filename: ${{ secrets.DOCKER_HUB_CONTAINER }}.zip
-          exclusions: '*.git* *.md .ghsha Dockerfile /src/*'
+          exclusions: '*.git* *.md GHSHA Dockerfile /src/*'
       - 
         name: Create GitHub release
         id: create_release
@@ -75,7 +75,7 @@ jobs:
         with:
           tag_name: ${{ env.NOW }}
           release_name: sif-${{ env.NOW }}
-          body_path: ./.ghsha
+          body_path: ./GHSHA
           draft: false
           prerelease: false
       - 
