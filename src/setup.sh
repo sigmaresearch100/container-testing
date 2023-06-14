@@ -99,7 +99,9 @@ git clone https://github.com/mhunter1/dynr.git
 cd dynr
 GHSHA=`git rev-parse origin/master`
 touch /etc/profile.d/GHSHA.sh
+touch /etc/profile.d/GHSHAMSG.sh
 echo "export GHSHA=$GHSHA" > /etc/profile.d/GHSHA.sh
+echo "export GHSHAMSG="This release is based on the $GHSHA commit in the master branch." > /etc/profile.d/GHSHAMSG.sh
 ./configure
 make clean install
 cd ..
@@ -114,10 +116,6 @@ cd /home/${DEFAULT_USER}/working-dir
 wget https://raw.githubusercontent.com/jeksterslab/template/main/project.Rproj
 echo "session-default-working-dir=/home/${DEFAULT_USER}/working-dir" >> /etc/rstudio/rsession.conf
 chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}/working-dir"
-
-## github commit sha
-touch /opt/.ghsha
-echo "This release is based on the $GHSHA commit in the master branch." > /opt/.ghsha
 
 ## project folder
 mkdir -p /home/${DEFAULT_USER}/project-dir
@@ -141,5 +139,5 @@ R -q -e "sessionInfo()"
 echo -e "Check the dynr package...\n"
 R -q -e "library(dynr)"
 R -e "demo('LinearSDE', package = 'dynr')"
-cat -e "/opt/.ghsha"
+echo -e "\n$GHSHAMSG"
 echo -e "\nInstall dynr package, done!"
