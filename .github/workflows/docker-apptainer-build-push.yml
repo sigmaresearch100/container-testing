@@ -14,7 +14,7 @@ jobs:
       - 
         name: Set the tag
         run: |
-          echo "NOW=$( date '+%F-%H%M%S' )" >> $GITHUB_ENV
+          echo "NOW=$( date '+%F-%H%M%S%2N' )" >> $GITHUB_ENV
       -
         name: Checkout 
         uses: actions/checkout@v3
