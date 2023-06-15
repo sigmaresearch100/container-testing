@@ -46,7 +46,7 @@ jobs:
         name: Run Apptainer container
         run: |
           apptainer run ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release
-          apptainer run ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /home/rstudio/project-dir/.GHSHAMSG > release.txt
+          apptainer run ${{ secrets.DOCKER_HUB_CONTAINER }}.sif echo "$GH" > release.txt
       -
         name: Upload Singularity Image File
         uses: actions/upload-artifact@v3
