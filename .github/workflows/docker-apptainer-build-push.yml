@@ -1,6 +1,8 @@
-name: Docker and Apptainer Build and Push
+name: Docker and Apptainer Build and Push (Daily)
 
 on:
+  schedule:
+    - cron: "0 0 * * *"
   push:
     branches: [ "main" ]
   pull_request:
@@ -45,7 +47,10 @@ jobs:
         run: apptainer build ${{ secrets.DOCKER_HUB_CONTAINER }}.sif docker://${{ secrets.DOCKER_HUB_USERNAME }}/${{ secrets.DOCKER_HUB_CONTAINER }}:${{ env.NOW }}
       -
         name: Run Apptainer container
-        run: apptainer run ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release; echo $GHSHAMSG > .ghsha
+        run: |
+          apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release; echo $GHSHAMSG > .ghsha
+          apptainer exec --cleanenv ${{ secrets.DOCKER_HUB_CONTAINER }}.sif env
+          apptainer exec --cleanenv ${{ secrets.DOCKER_HUB_CONTAINER }}.sif > .ghsha
       -
         name: Upload Singularity Image File
         uses: actions/upload-artifact@v3
