@@ -101,8 +101,8 @@ GHSHA=`git rev-parse origin/master`
 GHSHAMSG="This release is based on the $GHSHA commit in the master branch."
 touch /etc/profile.d/GHSHA.sh
 touch /etc/profile.d/GHSHAMSG.sh
-echo "export GHSHA=$GHSHA" > /etc/profile.d/GHSHA.sh
-echo "export GHSHAMSG=$GHSHAMSG" > /etc/profile.d/GHSHAMSG.sh
+echo "GHSHA=$GHSHA" > /etc/profile.d/GHSHA.sh
+echo "GHSHAMSG=$GHSHAMSG" > /etc/profile.d/GHSHAMSG.sh
 ./configure
 make clean install
 cd ..
