@@ -6,4 +6,4 @@ RUN chmod 777 /usr/src/local/src/setup.sh         && \
     rm -rf /usr/src/local/src
 
 ENV PATH="/opt/TinyTeX/bin/x86_64-linux:${PATH}"
-ENV GH=`git ls-remote https://github.com/mhunter1/dynr.git master`
+RUN /bin/bash -l -c 'echo export GH="$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profile.d/docker_init.sh'
