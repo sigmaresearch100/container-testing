@@ -1,8 +1,6 @@
-name: Docker and Apptainer Build and Push (Daily)
+name: Docker and Apptainer Build and Push
 
 on:
-  schedule:
-    - cron: "0 0 * * *"
   push:
     branches: [ "main" ]
   pull_request:
@@ -14,9 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - 
-        name: Set the tag
-        run: |
-          echo "NOW=$( date '+%F-%H%M%S%2N' )" >> $GITHUB_ENV
+        name: Set the environment variables
+        run: echo "NOW=$( date '+%F-%H%M%S%2N' )" >> $GITHUB_ENV
       -
         name: Checkout 
         uses: actions/checkout@v3
@@ -48,9 +45,8 @@ jobs:
       -
         name: Run Apptainer container
         run: |
-          apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release
-          apptainer exec --cleanenv ${{ secrets.DOCKER_HUB_CONTAINER }}.sif env
-          apptainer exec --cleanenv ${{ secrets.DOCKER_HUB_CONTAINER }}.sif echo $GHSHAMSG > .ghsha
+          apptainer run ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release
+          apptainer run ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /home/rstudio/project-dir/.GHSHAMSG > release.txt
       -
         name: Upload Singularity Image File
         uses: actions/upload-artifact@v3
@@ -70,7 +66,7 @@ jobs:
         uses: thedoctor0/zip-release@0.7.1
         with:
           filename: ${{ secrets.DOCKER_HUB_CONTAINER }}.zip
-          exclusions: '*.git* *.md .ghsha Dockerfile /src/*'
+          exclusions: '*.git* *.md *.txt Dockerfile /src/*'
       - 
         name: Create GitHub release
         id: create_release
@@ -80,7 +76,7 @@ jobs:
         with:
           tag_name: ${{ env.NOW }}
           release_name: sif-${{ env.NOW }}
-          body_path: ./.ghsha
+          body_path: ./release.txt
           draft: false
           prerelease: false
       - 
