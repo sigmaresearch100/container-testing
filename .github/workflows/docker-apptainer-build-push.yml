@@ -48,9 +48,9 @@ jobs:
       -
         name: Run Apptainer container
         run: |
-          apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release; echo $GHSHAMSG > .ghsha
+          apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release
           apptainer exec --cleanenv ${{ secrets.DOCKER_HUB_CONTAINER }}.sif env
-          apptainer exec --cleanenv ${{ secrets.DOCKER_HUB_CONTAINER }}.sif > .ghsha
+          apptainer exec --cleanenv ${{ secrets.DOCKER_HUB_CONTAINER }}.sif echo $GHSHAMSG > .ghsha
       -
         name: Upload Singularity Image File
         uses: actions/upload-artifact@v3
