@@ -123,17 +123,17 @@ chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}/project-dir"
 ## build details
 echo "$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profile.d/container_init.sh
 awk '{print $1 > "/etc/profile.d/container_init.sh"}' /etc/profile.d/container_init.sh
-DOCKER_RELEASE=$(cat /etc/profile.d/container_init.sh)
-echo "export DOCKER_RELEASE=$DOCKER_RELEASE" > /etc/profile.d/container_init.sh
-DOCKER_RELEASE_MSG="\"This release is based on the commit $DOCKER_RELEASE from the master branch.\""
-echo "export DOCKER_RELEASE_MSG=$DOCKER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
+CONTAINER_RELEASE=$(cat /etc/profile.d/container_init.sh)
+echo "export CONTAINER_RELEASE=$CONTAINER_RELEASE" > /etc/profile.d/container_init.sh
+CONTAINER_RELEASE_MSG="\"This release is based on the commit $CONTAINER_RELEASE from the master branch.\""
+echo "export CONTAINER_RELEASE_MSG=$CONTAINER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
 mkdir -p /srv/build
 cd /srv/build
-touch DOCKER_RELEASE_MSG
-touch DOCKER_RELEASE
-echo "$DOCKER_RELEASE_MSG" > DOCKER_RELEASE_MSG
-sed -i s/\"//g DOCKER_RELEASE_MSG
-echo "$DOCKER_RELEASE" > DOCKER_RELEASE
+touch CONTAINER_RELEASE_MSG
+touch CONTAINER_RELEASE
+echo "$CONTAINER_RELEASE_MSG" > CONTAINER_RELEASE_MSG
+sed -i s/\"//g CONTAINER_RELEASE_MSG
+echo "$CONTAINER_RELEASE" > CONTAINER_RELEASE
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
@@ -154,5 +154,5 @@ R -q -e "library(dynr)"
 R -e "demo('LinearSDE', package = 'dynr')"
 rm LinearSDE.*
 rm Rplots.pdf
-echo -e "\n$DOCKER_RELEASE_MSG"
+echo -e "\n$CONTAINER_RELEASE_MSG"
 echo -e "\nInstall dynr package, done!"
