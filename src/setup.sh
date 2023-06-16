@@ -119,12 +119,12 @@ echo "session-default-new-project-dir=/home/${DEFAULT_USER}/project-dir" >> /etc
 chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}/project-dir"
 
 ## build details
-echo "$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profile.d/docker_init.sh
-awk '{print $1 > "/etc/profile.d/docker_init.sh"}' /etc/profile.d/docker_init.sh
-GHREF=$(cat /etc/profile.d/docker_init.sh)
-echo "export GHREF=$GHREF" > /etc/profile.d/docker_init.sh
-GHREFMSG="This release is based on the commit $GHREF from the master branch."
-echo "export GHREFMSG=$GHREFMSG" >> /etc/profile.d/docker_init.sh
+echo "$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profile.d/container_init.sh
+awk '{print $1 > "/etc/profile.d/container_init.sh"}' /etc/profile.d/container_init.sh
+DOCKER_RELEASE=$(cat /etc/profile.d/container_init.sh)
+echo "export DOCKER_RELEASE=$DOCKER_RELEASE" > /etc/profile.d/container_init.sh
+DOCKER_RELEASE_MSG="This release is based on the commit $DOCKER_RELEASE from the master branch."
+echo "export DOCKER_RELEASE_MSG=$DOCKER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
@@ -142,5 +142,5 @@ R -q -e "sessionInfo()"
 echo -e "Check the dynr package...\n"
 R -q -e "library(dynr)"
 R -e "demo('LinearSDE', package = 'dynr')"
-echo -e "\n$GHREFMSG"
+echo -e "\n$DOCKER_RELEASE_MSG"
 echo -e "\nInstall dynr package, done!"
