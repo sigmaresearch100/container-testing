@@ -2,6 +2,8 @@
 
 set -e
 
+HERE=$PWD
+
 # a function to install apt packages only if they are not installed
 function apt_install() {
     if ! dpkg -s "$@" >/dev/null 2>&1; then
@@ -130,6 +132,7 @@ cd /srv/build
 touch DOCKER_RELEASE_MSG
 touch DOCKER_RELEASE
 echo "$DOCKER_RELEASE_MSG" > DOCKER_RELEASE_MSG
+sed -i s/\"//g DOCKER_RELEASE_MSG
 echo "$DOCKER_RELEASE" > DOCKER_RELEASE
 
 # Clean up
@@ -145,8 +148,11 @@ echo -e "Session information...\n"
 R -q -e "sessionInfo()"
 
 # Check dynr
+cd $HERE
 echo -e "Check the dynr package...\n"
 R -q -e "library(dynr)"
 R -e "demo('LinearSDE', package = 'dynr')"
+rm LinearSDE.*
+rm Rplots.pdf
 echo -e "\n$DOCKER_RELEASE_MSG"
 echo -e "\nInstall dynr package, done!"
