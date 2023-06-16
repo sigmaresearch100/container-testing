@@ -125,7 +125,7 @@ echo "$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profi
 awk '{print $1 > "/etc/profile.d/container_init.sh"}' /etc/profile.d/container_init.sh
 CONTAINER_RELEASE=$(cat /etc/profile.d/container_init.sh)
 echo "export CONTAINER_RELEASE=$CONTAINER_RELEASE" > /etc/profile.d/container_init.sh
-CONTAINER_RELEASE_MSG="\"This release is based on the commit $CONTAINER_RELEASE from the master branch.\""
+CONTAINER_RELEASE_MSG="\"This release is based on the commit $CONTAINER_RELEASE from the master branch of mhunter1/dynr.\""
 echo "export CONTAINER_RELEASE_MSG=$CONTAINER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
 mkdir -p /srv/build
 cd /srv/build
