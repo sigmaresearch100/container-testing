@@ -122,9 +122,9 @@ chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}/project-dir"
 echo "$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profile.d/docker_init.sh
 awk '{print $1 > "/etc/profile.d/docker_init.sh"}' /etc/profile.d/docker_init.sh
 GHREF=$(cat /etc/profile.d/docker_init.sh)
-echo "export $GHREF" > /etc/profile.d/docker_init.sh
+echo "export GHREF=$GHREF" > /etc/profile.d/docker_init.sh
 GHREFMSG="This release is based on the commit $GHREF from the master branch."
-echo "export $GHREFMSG" >> /etc/profile.d/docker_init.sh
+echo "export GHREFMSG=$GHREFMSG" >> /etc/profile.d/docker_init.sh
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
