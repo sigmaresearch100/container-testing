@@ -123,7 +123,7 @@ echo "$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profi
 awk '{print $1 > "/etc/profile.d/container_init.sh"}' /etc/profile.d/container_init.sh
 DOCKER_RELEASE=$(cat /etc/profile.d/container_init.sh)
 echo "export DOCKER_RELEASE=$DOCKER_RELEASE" > /etc/profile.d/container_init.sh
-DOCKER_RELEASE_MSG="This release is based on the commit $DOCKER_RELEASE from the master branch."
+DOCKER_RELEASE_MSG="\"This release is based on the commit $DOCKER_RELEASE from the master branch.\""
 echo "export DOCKER_RELEASE_MSG=$DOCKER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
 
 # Clean up
