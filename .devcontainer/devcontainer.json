@@ -6,8 +6,7 @@
 	"vscode": {
 		"extensions": [
 			"GitHub.vscode-github-actions",
-			"ms-azuretools.vscode-docker",
-			"yzhang.markdown-all-in-one"
+			"ms-azuretools.vscode-docker"
 		]
 	}
 }
