@@ -102,7 +102,7 @@ make clean install
 cd ..
 rm -rf dynr
 
-# Directories
+# directories
 DEFAULT_USER=${DEFAULT_USER:-"rstudio"}
 
 ## working directory folder
@@ -117,6 +117,14 @@ mkdir -p /home/${DEFAULT_USER}/project-dir
 cd /home/${DEFAULT_USER}/project-dir
 echo "session-default-new-project-dir=/home/${DEFAULT_USER}/project-dir" >> /etc/rstudio/rsession.conf
 chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}/project-dir"
+
+## build details
+echo "$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profile.d/docker_init.sh
+awk -i inplace '{print $1}' /etc/profile.d/docker_init.sh
+GHREF=$(cat /etc/profile.d/docker_init.sh)
+echo "export $GHREF" > /etc/profile.d/docker_init.sh
+GHREFMSG="This release is based on the commit $GHREF from the master branch."
+echo "export $GHREFMSG" >> /etc/profile.d/docker_init.sh
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
@@ -134,4 +142,5 @@ R -q -e "sessionInfo()"
 echo -e "Check the dynr package...\n"
 R -q -e "library(dynr)"
 R -e "demo('LinearSDE', package = 'dynr')"
+echo -e "\n$GHREFMSG"
 echo -e "\nInstall dynr package, done!"
