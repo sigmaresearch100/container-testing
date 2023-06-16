@@ -46,7 +46,7 @@ jobs:
         name: Run Apptainer container
         run: |
           apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/os-release
-          apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif /usr/bin/bash source /etc/profile.d/container_init.sh && echo $DOCKER_RELEASE_MSG > release.txt
+          apptainer exec ${{ secrets.DOCKER_HUB_CONTAINER }}.sif cat /etc/profile.d/container_init.sh > release.txt
       -
         name: Upload Singularity Image File
         uses: actions/upload-artifact@v3
