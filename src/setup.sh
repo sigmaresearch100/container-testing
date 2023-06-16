@@ -125,6 +125,12 @@ DOCKER_RELEASE=$(cat /etc/profile.d/container_init.sh)
 echo "export DOCKER_RELEASE=$DOCKER_RELEASE" > /etc/profile.d/container_init.sh
 DOCKER_RELEASE_MSG="\"This release is based on the commit $DOCKER_RELEASE from the master branch.\""
 echo "export DOCKER_RELEASE_MSG=$DOCKER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
+mkdir -p /srv/build
+cd /srv/build
+touch DOCKER_RELEASE_MSG
+touch DOCKER_RELEASE
+echo "$DOCKER_RELEASE_MSG" > DOCKER_RELEASE_MSG
+echo "$DOCKER_RELEASE" > DOCKER_RELEASE
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
