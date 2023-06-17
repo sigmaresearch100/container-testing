@@ -1,4 +1,4 @@
-FROM rocker/tidyverse
+FROM rocker/rstudio
 
 ADD src /usr/src/local/src
 RUN chmod 777 /usr/src/local/src/setup.sh         && \

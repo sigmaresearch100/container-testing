@@ -1,13 +1,15 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-},
-"customizations": {
-	"vscode": {
-		"extensions": [
-			"GitHub.vscode-github-actions",
-			"ms-azuretools.vscode-docker"
-		]
-	}
-}
-}
+	"image": "sigmaresearch100/testing",
+	"features": {
+  },
+  "customizations": {
+	  "vscode": {
+		  "extensions": [
+			  "REditorSupport.r",
+			  "GitHub.vscode-github-actions",
+			  "ms-azuretools.vscode-docker"
+		  ]
+	  }
+  }
+  }
+  
