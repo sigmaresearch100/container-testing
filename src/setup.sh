@@ -5,6 +5,35 @@ set -e
 ## build ARGs
 NCPUS=${NCPUS:--1}
 
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
+
+# personal apt packages
+apt_install        \
+    git            \
+    wget           \
+    parallel       \
+    vim            \
+    nnn            \
+    tmux           \
+    curl           \
+    less           \
+    bat            \
+    rsync          \
+    openssh-server \
+    neofetch
+
+# radian
+apt_install python3-pip
+pip3 install -U radian
+
 # development packages and cran packages
 install2.r --error --skipinstalled -n "$NCPUS" \
     covr           \
@@ -57,30 +86,19 @@ R -e "tinytex::install_tinytex( \
 )"
 
 ## build details
-# r2u can't access /etc/profile.d/container_init.sh
-# echo "$(git ls-remote https://github.com/jeksterslab/docker-r2u.git main)" > /etc/profile.d/container_init.sh
-# awk '{print $1 > "/etc/profile.d/container_init.sh"}' /etc/profile.d/container_init.sh
-# CONTAINER_RELEASE=$(cat /etc/profile.d/container_init.sh)
-# echo "export CONTAINER_RELEASE=$CONTAINER_RELEASE" > /etc/profile.d/container_init.sh
-# CONTAINER_RELEASE_MSG="\"This release is based on the commit $CONTAINER_RELEASE.\""
-# echo "export CONTAINER_RELEASE_MSG=$CONTAINER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
-# mkdir -p /srv/build
-# cd /srv/build
-# touch CONTAINER_RELEASE_MSG
-# touch CONTAINER_RELEASE
-# echo "$CONTAINER_RELEASE_MSG" > CONTAINER_RELEASE_MSG
-# sed -i s/\"//g CONTAINER_RELEASE_MSG
-# echo "$CONTAINER_RELEASE" > CONTAINER_RELEASE
+echo "$(git ls-remote https://github.com/jeksterslab/docker-rocker.git main)" > /etc/profile.d/container_init.sh
+awk '{print $1 > "/etc/profile.d/container_init.sh"}' /etc/profile.d/container_init.sh
+CONTAINER_RELEASE=$(cat /etc/profile.d/container_init.sh)
+echo "export CONTAINER_RELEASE=$CONTAINER_RELEASE" > /etc/profile.d/container_init.sh
+CONTAINER_RELEASE_MSG="\"This release is based on the commit $CONTAINER_RELEASE.\""
+echo "export CONTAINER_RELEASE_MSG=$CONTAINER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
 mkdir -p /srv/build
 cd /srv/build
 touch CONTAINER_RELEASE_MSG
 touch CONTAINER_RELEASE
-echo "$(git ls-remote https://github.com/jeksterslab/docker-r2u.git main)" > /srv/build/CONTAINER_RELEASE
-awk '{print $1 > "/srv/build/CONTAINER_RELEASE"}' /srv/build/CONTAINER_RELEASE
-CONTAINER_RELEASE=$(cat /srv/build/CONTAINER_RELEASE)
-echo "$CONTAINER_RELEASE" > /srv/build/CONTAINER_RELEASE
-CONTAINER_RELEASE_MSG="\"This release is based on the commit $CONTAINER_RELEASE.\""
-echo "$CONTAINER_RELEASE_MSG" >> /srv/build/CONTAINER_RELEASE_MSG
+echo "$CONTAINER_RELEASE_MSG" > CONTAINER_RELEASE_MSG
+sed -i s/\"//g CONTAINER_RELEASE_MSG
+echo "$CONTAINER_RELEASE" > CONTAINER_RELEASE
 
 # Clean up
 rm -rf /var/lib/apt/lists/*

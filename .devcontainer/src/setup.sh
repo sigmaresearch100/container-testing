@@ -15,9 +15,9 @@ function apt_install() {
 }
 
 # To add additional apt packages,
-# for example, to install nano and vim, do the following:
+# for example, to install tmux and vim, do the following:
 apt_install \
-  nano      \
+  tmux      \
   vim
 
 # To add additional R packages,
