@@ -1,11 +1,8 @@
 #!/bin/bash
 
-# based on https://raw.githubusercontent.com/rocker-org/rocker-versioned2/master/scripts/install_tidyverse.sh
-
 set -e
 
-## build ARGs
-NCPUS=${NCPUS:--1}
+HERE=$PWD
 
 # a function to install apt packages only if they are not installed
 function apt_install() {
@@ -17,121 +14,98 @@ function apt_install() {
     fi
 }
 
-apt_install                    \
-    libxml2-dev                \
-    libcairo2-dev              \
-    libgit2-dev                \
-    default-libmysqlclient-dev \
-    libpq-dev                  \
-    libsasl2-dev               \
-    libsqlite3-dev             \
-    libssh2-1-dev              \
-    libxtst6                   \
-    libcurl4-openssl-dev       \
-    libharfbuzz-dev            \
-    libfribidi-dev             \
-    libfreetype6-dev           \
-    libpng-dev                 \
-    libtiff5-dev               \
-    libjpeg-dev                \
-    unixodbc-dev
+# personal
 
-# personal apt packages
-apt_install        \
-    wget           \
-    parallel       \
-    vim            \
-    nnn            \
-    tmux           \
-    curl           \
-    less           \
-    bat            \
-    rsync          \
-    openssh-server \
+apt_install           \
+    wget              \
+    parallel          \
+    vim               \
+    nnn               \
+    tmux              \
+    curl              \
+    less              \
+    bat               \
+    rsync             \
+    openssh-server    \
     neofetch
 
-# radian
-apt_install python3-pip
-pip3 install -U radian
+# dep.sh
 
-install2.r --error --skipinstalled -n "$NCPUS" \
-    tidyverse   \
-    devtools    \
-    rmarkdown   \
-    BiocManager \
-    vroom       \
-    gert
+apt_install                \
+    libcurl4-openssl-dev   \
+    libharfbuzz-dev        \
+    libfribidi-dev         \
+    libfontconfig1-dev     \
+    build-essential        \
+    cmake                  \
+    libopenblas-dev        \
+    liblapack-dev          \
+    libarpack2-dev         \
+    libsuperlu-dev         \
+    libgsl-dev             \
+    libarmadillo-dev       \
+    libeigen3-dev
 
-# development packages and cran packages
-install2.r --error --skipinstalled -n "$NCPUS" \
-    covr           \
-    devtools       \
-    distro         \
-    ggplot2        \
-    knitr          \
-    languageserver \
-    lintr          \
-    magick         \
-    microbenchmark \
-    pdftools       \
-    pkgdown        \
-    ragg           \
-    remotes        \
-    rmarkdown      \
-    rprojroot      \
-    styler         \
-    testthat       \
-    tidyverse      \
-    qpdf           \
-    semmcci        \
-    betaDelta      \
-    betaSandwich   \
-    betaNB         \
-    betaMC
+R -e "                      \
+    install.packages(       \
+        c(                  \
+          'car',            \
+          'deSolve',        \
+          'devtools',       \
+          'fda',            \
+          'fds',            \
+          'ggplot2',        \
+          'knitr',          \
+          'languageserver', \
+          'latex2exp',      \
+          'magrittr',       \
+          'MASS',           \
+          'Matrix',         \
+          'mice',           \
+          'numDeriv',       \
+          'plyr',           \
+          'Rcpp',           \
+          'RcppArmadillo',  \
+          'RcppGSL',        \
+          'Rdpack',         \
+          'remotes',        \
+          'reshape2',       \
+          'rmarkdown',      \
+          'roxygen2',       \
+          'Ryacas',         \
+          'stringi',        \
+          'testthat',       \
+          'tibble',         \
+          'tinytex',        \
+          'xtable'          \
+        ),                  \
+        repos = 'https://packagemanager.rstudio.com/all/__linux__/jammy/latest', \
+        lib = file.path(Sys.getenv('R_HOME'), 'library')                         \
+    )                                                                            \
+"
 
-## dplyr database backends
-install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
-    arrow        \
-    dbplyr       \
-    DBI          \
-    dtplyr       \
-    duckdb       \
-    nycflights13 \
-    Lahman       \
-    RMariaDB     \
-    RPostgres    \
-    RSQLite      \
-    fst
+R -e "                                                    \
+    remotes::install_version(                             \
+        package = 'roxygen2',                             \
+        version = '5.0.1',                                \
+        repos = c(CRAN = 'https://cran.rstudio.com'),     \
+        lib = file.path(Sys.getenv('R_HOME'), 'library')  \
+    )                                                     \
+"
 
-## a bridge to far? -- brings in another 60 packages
-# install2.r --error --skipinstalled -n "$NCPUS" tidymodels
+R -e "                                                    \
+    try(tinytex::install_tinytex())                       \
+"
 
-# development packages from GitHub
-R -e "remotes::install_github(  \
-    c(                          \
-        'rstudio/tinytex',      \
-        'r-lib/cli',            \
-        'r-lib/devtools',       \
-        'r-hub/rhub'            \
-    )                           \
-)"
-R -e "remotes::install_github(      \
-    c(                              \
-        'jeksterslab/rProject',     \
-        'jeksterslab/semmcci',      \
-        'jeksterslab/betaDelta',    \
-        'jeksterslab/betaSandwich', \
-        'jeksterslab/betaNB',       \
-        'jeksterslab/betaMC'        \
-    )                               \
-)"
-R -e "tinytex::install_tinytex( \
-    bundle = 'TinyTeX',         \
-    force = TRUE,               \
-    dir =  '/opt/TinyTeX'       \
-)"
+# main
+git clone https://github.com/mhunter1/dynr.git
+cd dynr
+./configure
+make clean install
+cd ..
+rm -rf dynr
 
-# Directories
+# directories
 DEFAULT_USER=${DEFAULT_USER:-"rstudio"}
 
 ## working directory folder
@@ -148,11 +122,11 @@ echo "session-default-new-project-dir=/home/${DEFAULT_USER}/project-dir" >> /etc
 chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}/project-dir"
 
 ## build details
-echo "$(git ls-remote https://github.com/jeksterslab/docker-rocker.git main)" > /etc/profile.d/container_init.sh
+echo "$(git ls-remote https://github.com/mhunter1/dynr.git master)" > /etc/profile.d/container_init.sh
 awk '{print $1 > "/etc/profile.d/container_init.sh"}' /etc/profile.d/container_init.sh
 CONTAINER_RELEASE=$(cat /etc/profile.d/container_init.sh)
 echo "export CONTAINER_RELEASE=$CONTAINER_RELEASE" > /etc/profile.d/container_init.sh
-CONTAINER_RELEASE_MSG="\"This release is based on the commit $CONTAINER_RELEASE.\""
+CONTAINER_RELEASE_MSG="\"This release is based on the commit $CONTAINER_RELEASE from the master branch of mhunter1/dynr.\""
 echo "export CONTAINER_RELEASE_MSG=$CONTAINER_RELEASE_MSG" >> /etc/profile.d/container_init.sh
 mkdir -p /srv/build
 cd /srv/build
@@ -173,7 +147,13 @@ strip /usr/local/lib/R/site-library/*/libs/*.so
 # Installation information
 echo -e "Session information...\n"
 R -q -e "sessionInfo()"
-echo -e "Installed packages...\n"
-R -q -e "unname(installed.packages()[, 1])"
+
+# Check dynr
+cd $HERE
+echo -e "Check the dynr package...\n"
+R -q -e "library(dynr)"
+R -e "demo('LinearSDE', package = 'dynr')"
+rm LinearSDE.*
+rm Rplots.pdf
 echo -e "\n$CONTAINER_RELEASE_MSG"
-echo -e "\nBuild done!"
+echo -e "\nInstall dynr package, done!"

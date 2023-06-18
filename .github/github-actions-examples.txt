@@ -6,4 +6,10 @@ on:
 # weekly
 on:
   schedule:
-    - cron: "0 2 ? * SUN"
+    - cron: "0 0 * * 0"
+
+# monthly
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+

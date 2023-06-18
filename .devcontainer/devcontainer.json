@@ -1,31 +1,32 @@
 {
-  "name": "Rocker Development Environment",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-
-  "customizations": {
-	"vscode": {
-		"extensions": [
-            "REditorSupport.r",
-			"GitHub.vscode-github-actions",
-			"ms-azuretools.vscode-docker",
-            "dracula-theme.theme-dracula"
-		],
-        "settings": {
-          "r.rterm.linux": "/usr/local/bin/radian"
-      }
-	}
-  },
-
-  "forwardPorts": [8787],
-	"portsAttributes": {
-		"8787": {
-			"label": "Rstudio",
-			"requireLocalPort": true,
-			"onAutoForward": "ignore"
-		}
+	"name": "Docker Development Environment",
+	"build": {
+	  "dockerfile": "Dockerfile"
 	},
-
-	"postAttachCommand": "sudo rstudio-server start"
-}
+  
+	"customizations": {
+	  "vscode": {
+		  "extensions": [
+			  "REditorSupport.r",
+			  "GitHub.vscode-github-actions",
+			  "ms-azuretools.vscode-docker",
+			  "dracula-theme.theme-dracula"
+		  ],
+		  "settings": {
+			"r.rterm.linux": "/usr/local/bin/radian"
+		}
+	  }
+	},
+  
+	"forwardPorts": [8787],
+	  "portsAttributes": {
+		  "8787": {
+			  "label": "Rstudio",
+			  "requireLocalPort": true,
+			  "onAutoForward": "ignore"
+		  }
+	  },
+  
+	  "postAttachCommand": "sudo rstudio-server start"
+  }
+  

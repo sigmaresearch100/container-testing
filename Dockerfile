@@ -1,4 +1,4 @@
-FROM rocker/rstudio
+FROM rocker/tidyverse
 
 ADD src /usr/src/local/src
 RUN chmod 777 /usr/src/local/src/setup.sh         && \
@@ -9,4 +9,4 @@ ENV PATH="/opt/TinyTeX/bin/x86_64-linux:${PATH}"
 
 # extra metadata
 LABEL author="Anderson A. Anderson <sigmaresearch100@gmail.com>"
-LABEL description="sigmaresearch100/rocker container."
+LABEL description="sigmaresearch100/testing container."
